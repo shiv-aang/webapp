@@ -7,13 +7,27 @@ DEBUG = False
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['your-domain.com'])
 
 # --- Security Settings (IMPORTANT!) ---
+# These settings are crucial for a production environment.
+
+# Redirects all HTTP requests to HTTPS.
 SECURE_SSL_REDIRECT = True
+
+# Helps prevent XSS attacks by enabling the browser's XSS filter.
+SECURE_BROWSER_XSS_FILTER = True
+
+# Prevents the browser from guessing the content type of a file, which can prevent certain attacks.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enables HTTP Strict Transport Security (HSTS).
+# This tells the browser to only communicate with your site over HTTPS for the next year.
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_HSTS_PRELOAD = True # Submit your site to browser HSTS preload lists
+
+# Ensures that the session cookie is only sent over a secure (HTTPS) connection.
 SESSION_COOKIE_SECURE = True
+
+# Ensures that the CSRF cookie is only sent over a secure (HTTPS) connection.
 CSRF_COOKIE_SECURE = True
 
 # --- CORS for Production ---
