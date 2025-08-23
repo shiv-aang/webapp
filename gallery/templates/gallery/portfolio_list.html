@@ -1,0 +1,12 @@
+{% extends "gallery/base.html" %}
+{% block title %}Portfolio{% endblock %}
+{% block content %}
+    <h1>My Work</h1>
+    {% for item in portfolio_items %}
+        <div>
+            <img src="{{ item.image.url }}" alt="{{ item.title }}" width="200">
+            <h2><a href="{% url 'gallery:portfolio_detail' slug=item.slug %}">{{ item.title }}</a></h2>
+            <p>{{ item.technologies_used }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}

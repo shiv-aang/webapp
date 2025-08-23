@@ -1,0 +1,51 @@
+{% extends "gallery/base.html" %}
+
+{% block title %}Blog | My Portfolio{% endblock %}
+
+{% block content %}
+    <h1>Blog</h1>
+    <p>Here are my latest articles and thoughts.</p>
+
+    <div class="post-list">
+        {% for post in blog_posts %}
+            <article class="post-summary">
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" width="300">
+                {% endif %}
+                <h2><a href="{% url 'gallery:blog_detail' slug=post.slug %}">{{ post.title }}</a></h2>
+                <p class="post-meta">
+                    By {{ post.author.get_full_name|default:post.author.username }}
+                    on {{ post.publish_date|date:"F d, Y" }}
+                    &bull; {{ post.read_time_minutes }} min read
+                </p>
+                <p>{{ post.excerpt|truncatewords:30 }}</p>
+                <a href="{% url 'gallery:blog_detail' slug=post.slug %}">Read More &rarr;</a>
+            </article>
+            <hr>
+        {% empty %}
+            <p>There are no blog posts yet. Please check back later!</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination Controls -->
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current-page">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+
+{% endblock %}

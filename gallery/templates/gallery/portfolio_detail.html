@@ -1,0 +1,10 @@
+{% extends "gallery/base.html" %}
+{% block title %}{{ portfolioitem.title }}{% endblock %}
+{% block content %}
+    <h1>{{ portfolioitem.title }}</h1>
+    <img src="{{ portfolioitem.image.url }}" alt="{{ portfolioitem.title }}" width="400">
+    <p><strong>Technologies:</strong> {{ portfolioitem.technologies_used }}</p>
+    <div>{{ portfolioitem.description|linebreaks }}</div>
+    {% if portfolioitem.project_url %}<a href="{{ portfolioitem.project_url }}" target="_blank">View Project</a>{% endif %}
+    {% if portfolioitem.github_url %}<a href="{{ portfolioitem.github_url }}" target="_blank">View on GitHub</a>{% endif %}
+{% endblock %}
