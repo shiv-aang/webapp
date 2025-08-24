@@ -3,8 +3,9 @@ from .base import *
 
 # Production-specific settings
 # These values would be set in the production server's environment, not in a .env file
+SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['your-domain.com'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['your-domain.com', 'www.your-domain.com'])
 
 # --- Security Settings (IMPORTANT!) ---
 # These settings are crucial for a production environment.
@@ -29,6 +30,35 @@ SESSION_COOKIE_SECURE = True
 
 # Ensures that the CSRF cookie is only sent over a secure (HTTPS) connection.
 CSRF_COOKIE_SECURE = True
+
+# --- Database Configuration for PostgreSQL ---
+# The DATABASE_URL will be set on the server like:
+# DATABASE_URL=postgres://user:password@host:port/dbname
+DATABASES = {
+    'default': env.db(),
+}
+
+# --- Static Files with WhiteNoise ---
+# WhiteNoise allows your web app to serve its own static files without
+# relying on Nginx or a separate CDN. It's highly efficient.
+# Add 'whitenoise.middleware.WhiteNoiseMiddleware' to the top of your MIDDLEWARE list in base.py
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# --- Logging Configuration ---
+# This sends error logs to the console, which will be captured by the systemd journal.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING', # Change to INFO for more verbose logs
+    },
+}
 
 # --- CORS for Production ---
 # Only allow your frontend domain to access the API

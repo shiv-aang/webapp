@@ -1,0 +1,12 @@
+[Unit]
+Description=portfolio gunicorn socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+# Set permissions for the socket file.
+SocketUser=www-data
+SocketGroup=www-data
+SocketMode=0660
+
+[Install]
+WantedBy=sockets.target

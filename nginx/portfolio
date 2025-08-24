@@ -1,0 +1,42 @@
+# nginx/portfolio
+server {
+    listen 80;
+    server_name your-domain.com www.your-domain.com;
+
+    # Redirect HTTP to HTTPS (Certbot will handle this automatically later, but it's good practice)
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name your-domain.com www.your-domain.com;
+
+    # SSL certificate paths (Certbot will fill these in)
+    # ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/your-domain.com/privkey.pem;
+
+    # Location of static files collected by 'collectstatic'
+    location /static/ {
+        alias /path/to/your/portfolio_project/staticfiles/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # Location of user-uploaded media files
+    location /media/ {
+        alias /path/to/your/portfolio_project/media/;
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # All other requests are passed to the Gunicorn socket
+    location / {
+        proxy_pass http://unix:/run/gunicorn.sock;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
