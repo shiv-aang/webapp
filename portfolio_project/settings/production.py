@@ -5,13 +5,16 @@ from .base import *
 # These values would be set in the production server's environment, not in a .env file
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['your-domain.com', 'www.your-domain.com'])
-
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+#ALLOWED_HOSTS = ['portfolio.inaneprojects.online']
 # --- Security Settings (IMPORTANT!) ---
 # These settings are crucial for a production environment.
 
 # Redirects all HTTP requests to HTTPS.
 SECURE_SSL_REDIRECT = True
+
+# Tells Django to trust the X-Forwarded-Proto header from our proxy (Nginx).
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Helps prevent XSS attacks by enabling the browser's XSS filter.
 SECURE_BROWSER_XSS_FILTER = True
@@ -60,9 +63,3 @@ LOGGING = {
     },
 }
 
-# --- CORS for Production ---
-# Only allow your frontend domain to access the API
-CORS_ALLOWED_ORIGINS = [
-    "https://your-domain.com",
-    "https://www.your-domain.com",
-]

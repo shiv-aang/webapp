@@ -1,4 +1,4 @@
-[Unit]
+I[Unit]
 Description=Portfolio Django App Service
 # This service requires the socket to be active.
 Requires=portfolio.socket
@@ -14,7 +14,8 @@ WorkingDirectory=/home/ashen_boi/django_projects
 
 # The command to execute.
 # It sets the production settings module and starts Gunicorn.
-ExecStart=//home/ashen_boi/django_projects/venv/bin/gunicorn \
+EnvironmentFile=/etc/portfolio/portfolio.env
+ExecStart=/home/ashen_boi/django_projects/venv/bin/gunicorn \
     --config /home/ashen_boi/django_projects/gunicorn.conf.py \
     portfolio_project.wsgi:application
 
@@ -22,4 +23,4 @@ ExecStart=//home/ashen_boi/django_projects/venv/bin/gunicorn \
 Restart=on-failure
 
 [Install]
-Wantedby=multi-user.target
+WantedBy=multi-user.target

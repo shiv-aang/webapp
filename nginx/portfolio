@@ -1,7 +1,7 @@
 # nginx/portfolio
 server {
     listen 80;
-    server_name your-domain.com www.your-domain.com;
+    server_name inaneprojects.online www.inaneprojects.online;
 
     # Redirect HTTP to HTTPS (Certbot will handle this automatically later, but it's good practice)
     location / {
@@ -11,7 +11,7 @@ server {
 
 server {
     listen 443 ssl;
-    server_name your-domain.com www.your-domain.com;
+    server_name inaneprojects.online www.inaneprojects.online;
 
     # SSL certificate paths (Certbot will fill these in)
     # ssl_certificate /etc/letsencrypt/live/your-domain.com/fullchain.pem;
