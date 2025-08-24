@@ -1,33 +1,28 @@
 {% extends "gallery/base.html" %}
-
-{% block title %}Blog | My Portfolio{% endblock %}
+{% block title %}Blog{% endblock %}
 
 {% block content %}
+<div class="container">
     <h1>Blog</h1>
     <p>Here are my latest articles and thoughts.</p>
 
-    <div class="post-list">
+    <div class="grid-container">
         {% for post in blog_posts %}
-            <article class="post-summary">
-                {% if post.featured_image %}
-                    <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" width="300">
-                {% endif %}
-                <h2><a href="{% url 'gallery:blog_detail' slug=post.slug %}">{{ post.title }}</a></h2>
-                <p class="post-meta">
-                    By {{ post.author.get_full_name|default:post.author.username }}
-                    on {{ post.publish_date|date:"F d, Y" }}
-                    &bull; {{ post.read_time_minutes }} min read
-                </p>
-                <p>{{ post.excerpt|truncatewords:30 }}</p>
-                <a href="{% url 'gallery:blog_detail' slug=post.slug %}">Read More &rarr;</a>
-            </article>
-            <hr>
+            <a href="{% url 'gallery:blog_detail' slug=post.slug %}" class="card">
+                <div class="card-color-block {% cycle 'bg-color-1' 'bg-color-2' 'bg-color-3' 'bg-color-4' 'bg-color-5' %}">
+                    <!-- This is a simple way to show a title preview on the color block -->
+                    {{ post.title|truncatewords:5 }}
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="card-subtitle">{{ post.publish_date|date:"F d, Y" }} &bull; {{ post.read_time_minutes }} min read</p>
+                </div>
+            </a>
         {% empty %}
             <p>There are no blog posts yet. Please check back later!</p>
         {% endfor %}
     </div>
 
-    <!-- Pagination Controls -->
     {% if is_paginated %}
         <div class="pagination">
             <span class="step-links">
@@ -47,5 +42,5 @@
             </span>
         </div>
     {% endif %}
-
+</div>
 {% endblock %}

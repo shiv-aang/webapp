@@ -1,31 +1,24 @@
 {% extends "gallery/base.html" %}
 
-{% block title %}{{ blogpost.title }} | My Portfolio{% endblock %}
+{% block title %}{{ blogpost.title }}{% endblock %}
 
 {% block content %}
-    <article class="post-full">
+    <div class="detail-header">
         <h1>{{ blogpost.title }}</h1>
-        <p class="post-meta">
-            Published by <strong>{{ blogpost.author.get_full_name|default:blogpost.author.username }}</strong>
-            on {{ blogpost.publish_date|date:"F d, Y" }}
-            &bull; {{ blogpost.read_time_minutes }} min read
+        <p class="card-subtitle">
+            Published on {{ blogpost.publish_date|date:"F d, Y" }} &bull; {{ blogpost.read_time_minutes }} min read
         </p>
+    </div>
 
-        {% if blogpost.featured_image %}
-            <img src="{{ blogpost.featured_image.url }}" alt="{{ blogpost.title }}" style="max-width: 700px; height: auto;">
-        {% endif %}
+    {% if blogpost.featured_image %}
+        <img src="{{ blogpost.featured_image.url }}" alt="{{ blogpost.title }}" class="detail-image">
+    {% endif %}
 
-        <div class="post-content">
-            {{ blogpost.content|linebreaks }}
-        </div>
-
+    <div class="detail-content">
+        {{ blogpost.content|linebreaks }}
         {% if blogpost.tags %}
-            <div class="post-tags">
-                <strong>Tags:</strong> {{ blogpost.tags }}
-            </div>
+            <hr>
+            <p><strong>Tags:</strong> {{ blogpost.tags }}</p>
         {% endif %}
-
-        <hr>
-        <a href="{% url 'gallery:blog_list' %}">&larr; Back to all posts</a>
-    </article>
+    </div>
 {% endblock %}

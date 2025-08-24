@@ -1,47 +1,166 @@
 /* static/gallery/css/main.css */
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    line-height: 1.6;
+/* 1. Global Styles & Variables */
+:root {
+    --primary-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --background-color: #f4f7f9;
+    --container-background: #ffffff;
+    --text-color: #333;
+    --subtle-text-color: #777;
+    --link-color: #007bff;
+    --border-color: #e9ecef;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
-    padding: 2rem;
+    padding: 0;
 }
 
-main {
-    max-width: 900px;
+body {
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* 2. Layout & Container */
+.container {
+    max-width: 1200px;
     margin: 2rem auto;
-    padding: 2rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 0 2rem;
 }
 
-nav {
-    display: flex;
-    gap: 1.5rem;
+header {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 2rem;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 1rem;
 }
 
 nav a {
     text-decoration: none;
-    color: #007bff;
+    color: var(--link-color);
     font-weight: 500;
+    margin-right: 1.5rem;
 }
 
-/*
- * A basic glassmorphism class you can apply to elements.
- * For this to be visible, you need a background image or gradient on a parent element (e.g., the body).
-*/
-.glass-effect {
-    background: rgba(255, 255, 255, 0.25); /* Semi-transparent white */
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-    backdrop-filter: blur(4px); /* This creates the frosted glass effect */
-    -webkit-backdrop-filter: blur(4px); /* For Safari support */
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    padding: 20px;
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem;
+    color: var(--subtle-text-color);
+}
+
+/* 3. Typography */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h1 + p { /* Selects the paragraph immediately after an h1 */
+    font-size: 1.1rem;
+    color: var(--subtle-text-color);
+    margin-bottom: 2.5rem;
+}
+
+/* 4. Grid System for Gallery & Blog */
+.grid-container {
+    display: grid;
+    /* This creates a responsive grid. It will fit as many 280px columns as it can,
+       and each column will grow to fill the space evenly. */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* 5. Card Component (for Portfolio & Blog) */
+.card {
+    background-color: var(--container-background);
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden; /* Keeps the image corners rounded */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card-content {
+    padding: 1rem;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: var(--subtle-text-color);
+}
+
+/* 6. Portfolio-Specific Card Styles */
+.card-image-container {
+    width: 100%;
+    aspect-ratio: 4 / 3; /* Gives all images a consistent 4:3 aspect ratio */
+    overflow: hidden;
+}
+
+.card-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Prevents images from stretching */
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-image-container img {
+    transform: scale(1.05); /* Subtle zoom effect on hover */
+}
+
+/* 7. Blog-Specific "Pantone" Card Styles */
+.card-color-block {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* Pre-defined background colors for the blog cards */
+.bg-color-1 { background-color: #4a90e2; }
+.bg-color-2 { background-color: #50e3c2; }
+.bg-color-3 { background-color: #f5a623; }
+.bg-color-4 { background-color: #bd10e0; }
+.bg-color-5 { background-color: #e24a4a; }
+
+/* 8. Pagination */
+.pagination {
+    text-align: center;
+    margin-top: 3rem;
+}
+.pagination a, .pagination .current-page {
+    margin: 0 0.5rem;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--link-color);
+}
+.pagination .current-page {
+    background-color: var(--link-color);
+    color: white;
+    border-color: var(--link-color);
 }

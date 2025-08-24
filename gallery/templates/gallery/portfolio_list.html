@@ -1,12 +1,27 @@
 {% extends "gallery/base.html" %}
 {% block title %}Portfolio{% endblock %}
+
 {% block content %}
+<div class="container">
     <h1>My Work</h1>
-    {% for item in portfolio_items %}
-        <div>
-            <img src="{{ item.image.url }}" alt="{{ item.title }}" width="200">
-            <h2><a href="{% url 'gallery:portfolio_detail' slug=item.slug %}">{{ item.title }}</a></h2>
-            <p>{{ item.technologies_used }}</p>
-        </div>
-    {% endfor %}
+    <p>A selection of my projects. Click on any project to learn more.</p>
+
+    <div class="grid-container">
+        {% for item in portfolio_items %}
+            <a href="{% url 'gallery:portfolio_detail' slug=item.slug %}" class="card">
+                <div class="card-image-container">
+                    <img src="{{ item.image.url }}" alt="{{ item.title }}">
+                </div>
+                <div class="card-content">
+                    <h2 class="card-title">{{ item.title }}</h2>
+                    <p class="card-subtitle">{{ item.technologies_used }}</p>
+                </div>
+            </a>
+        {% empty %}
+            <p>No portfolio items have been added yet.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination will go here if you add it -->
+</div>
 {% endblock %}
